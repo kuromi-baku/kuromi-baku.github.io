@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>方案B・复古 Galgame</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;user-select:none}
+html,body{height:100%;overflow:hidden;background:#000;font-family:'PingFang TC','Heiti TC','Microsoft JhengHei',sans-serif;color:#fff}
+.stage{position:fixed;inset:0;background:center/cover}
+.stage img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:94%;pointer-events:none}
+/* 左上角：纯文字状态，无圆角无发光 */
+.status{position:absolute;left:0;top:0;padding:8px 16px;background:rgba(20,28,48,.78);font-size:14px;letter-spacing:.1em;border-bottom-right-radius:0}
+.status b{color:#ffd9a0;font-weight:normal;margin-left:10px}
+.menu{position:absolute;right:0;top:0;display:flex;background:rgba(20,28,48,.78);font:12px/1 Georgia,serif;letter-spacing:.15em}
+.menu span{padding:10px 14px;cursor:pointer;border-left:1px solid rgba(255,255,255,.15)}
+.menu span:hover{background:#3c5a9a}
+/* 经典下方对话框：纯色半透明 + 一条细线，不用渐变 */
+.box{position:absolute;left:0;right:0;bottom:0;height:27%;min-height:150px;background:rgba(18,26,46,.84);border-top:2px solid #8ea6d8;padding:34px 12% 0;cursor:pointer}
+.name{position:absolute;left:12%;top:-18px;background:#2d4a86;border:2px solid #8ea6d8;padding:3px 22px;font-size:18px;letter-spacing:.15em}
+.text{font-size:clamp(17px,2vw,22px);line-height:1.9;letter-spacing:.06em}
+.arrow{position:absolute;right:12%;bottom:18px;width:0;height:0;border:8px solid transparent;border-top:12px solid #ffd9a0;animation:b 1s steps(2) infinite}
+@keyframes b{50%{transform:translateY(5px)}}
+.choices{position:absolute;left:0;right:0;top:12%;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ch{width:min(640px,80%);padding:13px 20px;background:rgba(18,26,46,.88);border:2px solid #8ea6d8;color:#fff;font:inherit;font-size:19px;cursor:pointer;text-align:center}
+.ch:hover{background:#3c5a9a;border-color:#ffd9a0}
+.back{position:fixed;left:14px;bottom:calc(27% + 26px);font:13px sans-serif;color:#cfe;text-decoration:none;z-index:9;opacity:.8}
+</style></head><body>
+<div class="stage" id="stage"><img id="face">
+ <div class="status" id="chap"></div>
+ <div class="menu"><span>SAVE</span><span>LOAD</span><span>LOG</span><span>AUTO</span><span>SKIP</span><span>CONFIG</span></div>
+ <div class="choices" id="choices"></div>
+ <div class="box" id="box"><div class="name" id="name"></div><div class="text" id="text"></div><div class="arrow"></div></div>
+</div>
+<a class="back" href="index.html">← 返回选择</a>
+<script src="story.js"></script>
+<script>
+const S=STORY,$=id=>document.getElementById(id);
+$('stage').style.backgroundImage=`url(${S.bg})`;
+let opts=null,affN=0;
+function head(){$('chap').innerHTML=S.chapter+'<b>好感度 '+affN+'</b>'}
+const vn=createVN({
+ face:s=>$('face').src=s,
+ line:l=>{$('name').textContent=l.speaker;$('name').style.visibility=l.speaker?'visible':'hidden';$('text').textContent=l.text},
+ choices:o=>{opts=o;const c=$('choices');c.innerHTML='';$('box').style.pointerEvents=o?'none':'auto';
+  if(o)o.forEach((x,i)=>{const b=document.createElement('button');b.className='ch';b.textContent=x.t;b.onclick=()=>vn.choose(i,opts);c.appendChild(b)})},
+ aff:n=>{affN=n;head()}
+});
+head();$('box').onclick=()=>vn.next();vn.start();
+</script></body></html>

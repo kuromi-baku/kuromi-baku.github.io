@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>地雷系。 — ISSUE 07</title>
+<style>
+:root{--paper:#fff6e5;--ink:#141414;--pink:#f4a7b9;--hot:#e0527a;--mint:#9ad0c2;--brown:#7a4b5a;--card:#fff;--hover:#fff0f4;--muted:#444;--dot:rgba(244,167,185,.35);--onpink:#141414}
+[data-theme=dark]{--paper:#15101c;--ink:#f3e6ec;--pink:#e68aa6;--hot:#ff7aa2;--mint:#5fa595;--brown:#c99aab;--card:#201829;--hover:#2b1f36;--muted:#bfaab6;--dot:rgba(230,138,166,.16);--onpink:#141414}
+body,.card,.panel,.bubble,input{transition:background-color .3s,color .3s,border-color .3s}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:"Hiragino Mincho ProN","Songti TC","Noto Serif JP",serif;line-height:1.8;
+ background-image:radial-gradient(var(--dot) 1.2px,transparent 1.4px);background-size:18px 18px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:2px solid var(--ink);font-size:13px;letter-spacing:.2em}
+header nav{display:flex;gap:24px}
+header nav a:hover{color:var(--hot);text-decoration:underline wavy}
+.hero{display:grid;grid-template-columns:auto 1fr 240px;gap:32px;padding:56px 0;border-bottom:1px solid var(--ink);align-items:start}
+.vt{writing-mode:vertical-rl;font:900 clamp(56px,10vw,120px)/1.1 "Hiragino Sans","PingFang TC",sans-serif;letter-spacing:.12em}
+.vt span{color:var(--hot)}
+.lead p{margin-bottom:16px}
+.bubble{position:relative;background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:14px 20px;display:inline-block;margin:8px 0 24px}
+.bubble:after{content:"";position:absolute;left:30px;bottom:-14px;width:20px;height:20px;background:var(--card);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.issue{font:12px/1.8 monospace;border-left:1px solid var(--ink);padding-left:14px;letter-spacing:.1em}
+.issue b{display:block;font:900 40px/1 sans-serif;margin-bottom:6px}
+.btn{display:inline-block;border:2px solid var(--ink);padding:8px 26px;background:var(--pink);color:var(--onpink);font-size:14px;letter-spacing:.2em;box-shadow:4px 4px 0 var(--ink);transition:.15s}
+.btn:hover{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.mq{border-block:2px solid var(--ink);background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font:13px sans-serif;letter-spacing:.3em;padding:6px 0}
+.mq div{display:inline-block;padding-left:100%;animation:m 22s linear infinite}
+@keyframes m{to{transform:translateX(-100%)}}
+h2{font:900 14px sans-serif;letter-spacing:.4em;margin:56px 0 20px;display:flex;align-items:center;gap:14px}
+h2:after{content:"";flex:1;border-top:1px solid var(--ink)}
+h2 i{font-style:normal;color:var(--hot)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);background:var(--card)}
+.card{padding:20px;border-right:1px solid var(--ink);min-height:260px;display:flex;flex-direction:column;transition:.2s}
+.card:last-child{border-right:0}
+.card:hover{background:var(--hover)}
+.ph{aspect-ratio:4/3;border:1px solid var(--ink);margin-bottom:14px;display:grid;place-items:center;font-size:40px;color:#fff}
+.card:nth-child(1) .ph{background:var(--pink)}.card:nth-child(2) .ph{background:var(--mint)}.card:nth-child(3) .ph{background:#c9b6ff}
+.card small{font:11px monospace;letter-spacing:.2em;color:var(--hot)}
+.card h3{font-size:18px;margin:2px 0}
+.card p{font-size:13px;color:var(--muted)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.panel{border:2px solid var(--ink);background:var(--card);padding:24px;position:relative}
+.panel:before{content:"✿";position:absolute;top:-16px;right:16px;font-size:28px;color:var(--pink);background:var(--paper);padding:0 6px}
+.panel li{list-style:none;border-bottom:1px dashed var(--ink);padding:6px 0;font-size:14px}
+.panel li span{float:right;font-family:monospace;color:var(--hot)}
+form{display:flex;gap:0;margin-top:14px}
+input{flex:1;border:2px solid var(--ink);padding:10px 14px;background:var(--paper);font:inherit;outline:0}
+input{color:var(--ink)}input:focus{background:var(--card)}
+.tg{border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:3px 12px;font:12px sans-serif;letter-spacing:.15em;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.tg:active{transform:translate(2px,2px);box-shadow:none}
+form button{border:2px solid var(--ink);border-left:0;background:var(--ink);color:var(--paper);padding:0 22px;font:inherit;letter-spacing:.2em;cursor:pointer}
+footer{margin-top:72px;border-top:2px solid var(--ink);padding:24px 0 40px;display:flex;justify-content:space-between;font-size:12px;letter-spacing:.15em}
+@media(max-width:760px){.hero{grid-template-columns:auto 1fr}.issue{grid-column:1/-1;border-left:0;border-top:1px solid var(--ink);padding:12px 0 0}.grid,.about{grid-template-columns:1fr}.card{border-right:0;border-bottom:1px solid var(--ink)}header nav{gap:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header><div>JIRAI ✿ MAGAZINE</div><nav><button class="tg" id="tg" aria-label="切換亮色/暗色">☾ DARK</button><a href="#feature">特集</a><a href="#about">私のこと</a><a href="#letter">お便り</a></nav></header>
+ <section class="hero">
+  <div class="vt">地雷系<span>。</span></div>
+  <div class="lead">
+   <div class="bubble">ねぇ、私のこと、好き?</div>
+   <p>黒とピンクと、ちょっとの痛み。<br>少女漫画のきらめきと、雑誌のしずけさで編んだ、<br>私だけのちいさな部屋へようこそ。</p>
+   <p style="font-size:13px;color:var(--brown)">— 昭和の少女漫画 × モノクロ誌面 —</p>
+   <a class="btn" href="#feature">READ ✿</a>
+  </div>
+  <div class="issue"><b>07</b>ISSUE No.07<br>VOL. DARK PINK<br>2026 / 11<br>PRICE: ♡ FREE</div>
+ </section>
+</div>
+<div class="mq"><div>♡ 地雷ちゃん ♡ 眠れない夜に ♡ ずっと、いっしょ ♡ 新刊 ISSUE 07 配信中 ♡ 好きって言って ♡</div></div>
+<div class="wrap">
+ <h2 id="feature"><i>01</i>FEATURE　特集</h2>
+ <div class="grid">
+  <a class="card" href="#"><div class="ph">♡</div><small>COLUMN</small><h3>リボンの作法</h3><p>黒いリボンを結ぶとき、心も結んでおく。</p></a>
+  <a class="card" href="#"><div class="ph">✿</div><small>STYLE</small><h3>量産型のひみつ</h3><p>フリルと涙袋、かわいいの設計図。</p></a>
+  <a class="card" href="#"><div class="ph">☾</div><small>ESSAY</small><h3>午前三時のメッセージ</h3><p>既読がつかない夜のための短い物語。</p></a>
+ </div>
+ <h2 id="about"><i>02</i>ABOUT　私のこと</h2>
+ <div class="about">
+  <div class="panel"><p style="font-size:14px">はじめまして。ここは「かわいい」と「さみしい」をまとめた個人マガジンです。毎月ひとつ、テーマを決めて更新します。</p>
+   <ul style="margin-top:12px;padding:0"><li>好きな色<span>PINK / BLACK</span></li><li>好きな時間<span>03:00</span></li><li>好きな言葉<span>ずっと</span></li></ul></div>
+  <div class="panel" id="letter"><b>お便り ✉</b><p style="font-size:13px;margin-top:6px">新刊のお知らせを、あなたの手紙箱へ。</p>
+   <form onsubmit="event.preventDefault();this.querySelector('button').textContent='✓ 送信済';"><input type="email" placeholder="mail@example.com" required><button>送る</button></form></div>
+ </div>
+ <footer><span>© 2026 JIRAI MAGAZINE</span><span>♡ ずっと、いっしょ。</span></footer>
+</div>
+<script>
+(function(){var h=document.documentElement,b=document.getElementById('tg');
+function set(t){h.dataset.theme=t;b.textContent=t=='dark'?'☀ LIGHT':'☾ DARK';try{localStorage.setItem('jt',t)}catch(e){}}
+var s;try{s=localStorage.getItem('jt')}catch(e){}
+set(s||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.onclick=function(){set(h.dataset.theme=='dark'?'light':'dark')}})();
+</script>
+</body>
+</html>
