@@ -2,11 +2,13 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>《黑薔薇公爵的破冰契約》— 清新乙女手遊風視覺小說</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <!-- 引入 jQuery 3.7.1 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <style>
     :root {
       --rose-primary: #d97593;
@@ -22,22 +24,33 @@
       --text-accent: #b34e6f;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
     body, html {
-      width: 100%; height: 100%; overflow: hidden;
-      background: #fdf6f8; color: var(--text-dark);
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #fdf6f8;
+      color: var(--text-dark);
       font-family: 'Noto Sans TC', 'Noto Serif TC', sans-serif;
     }
 
     .game-viewport {
       position: relative;
-      width: 100vw; height: 100vh;
+      width: 100%;
+      height: 100dvh;
       overflow: hidden;
       background: #fdf6f8;
     }
 
     /* ==========================================
-       VIEW 1: FRESH OTOME TRANSMIGRATION PROLOGUE (清新乙女穿書前情提要)
+       VIEW 1: FRESH OTOME TRANSMIGRATION PROLOGUE (RWD)
        ========================================== */
     .prologue-screen {
       position: absolute; inset: 0; z-index: 50;
@@ -46,7 +59,7 @@
         url('assets/bg_garden.jpg') center/cover no-repeat;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 20px;
+      padding: clamp(12px, 3vw, 28px);
       transition: opacity 0.55s ease, visibility 0.55s ease;
     }
     .prologue-screen.hidden {
@@ -55,13 +68,16 @@
 
     .prologue-book {
       max-width: 740px; width: 100%;
-      background: rgba(255, 252, 253, 0.92);
+      max-height: 92%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(255, 252, 253, 0.93);
       border: 1.5px solid var(--glass-border);
-      border-radius: 24px;
-      padding: clamp(22px, 3.5vw, 36px) clamp(24px, 4.2vw, 44px);
+      border-radius: clamp(18px, 2.5vw, 24px);
+      padding: clamp(18px, 3.5vw, 36px) clamp(16px, 4vw, 44px);
       box-shadow:
         0 20px 55px rgba(184, 84, 116, 0.16),
-        0 0 0 6px rgba(255, 255, 255, 0.55);
+        0 0 0 5px rgba(255, 255, 255, 0.55);
       position: relative;
       backdrop-filter: blur(18px);
     }
@@ -75,16 +91,18 @@
     }
     .prologue-subtitle {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 0.18em;
+      font-size: clamp(0.78rem, 1.2vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.16em;
       color: var(--rose-deep); text-transform: uppercase;
     }
+
     .ending-tracker {
       display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center;
-      font-size: 0.74rem; color: var(--text-muted);
+      font-size: clamp(0.7rem, 1.1vw, 0.75rem); color: var(--text-muted);
     }
     .ending-pill {
-      padding: 3px 11px; border-radius: 99px;
+      padding: 3px 10px; border-radius: 99px;
       background: rgba(246, 220, 228, 0.45);
       border: 1px solid rgba(217, 117, 147, 0.25);
       color: #9e7b89;
@@ -99,21 +117,21 @@
 
     .prologue-title {
       font-family: 'Noto Serif TC', serif;
-      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+      font-size: clamp(1.25rem, 2.6vw, 1.85rem);
       font-weight: 900;
       color: var(--text-dark);
       letter-spacing: 0.05em;
-      margin-bottom: 16px;
+      margin-bottom: clamp(12px, 2vw, 16px);
       text-align: center;
     }
 
     .novel-pages {
-      display: flex; flex-direction: column; gap: 11px;
-      font-size: clamp(0.85rem, 1.4vw, 0.95rem);
-      line-height: 1.85;
+      display: flex; flex-direction: column; gap: 10px;
+      font-size: clamp(0.84rem, 1.4vw, 0.95rem);
+      line-height: 1.8;
       color: var(--text-dark);
-      margin-bottom: 22px;
-      padding: 16px 20px;
+      margin-bottom: clamp(16px, 2.5vw, 22px);
+      padding: clamp(12px, 2vw, 16px) clamp(14px, 2.5vw, 20px);
       border-left: 3.5px solid var(--rose-primary);
       background: linear-gradient(90deg, rgba(246, 220, 228, 0.38) 0%, rgba(255, 255, 255, 0.5) 100%);
       border-radius: 0 16px 16px 0;
@@ -135,15 +153,20 @@
       padding-top: 4px;
     }
     .otome-primary-btn {
-      padding: 12px 34px; border-radius: 999px;
+      width: auto;
+      max-width: 100%;
+      padding: 12px clamp(20px, 4vw, 34px);
+      border-radius: 999px;
       border: 1.5px solid rgba(255, 255, 255, 0.9);
       background: linear-gradient(135deg, #e5839f 0%, #c95f80 100%);
       color: #ffffff;
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: 0.92rem; font-weight: 700;
-      letter-spacing: 0.06em;
+      font-size: clamp(0.84rem, 1.4vw, 0.92rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
       cursor: pointer; transition: all 0.25s ease;
       box-shadow: 0 8px 22px rgba(201, 95, 128, 0.35);
+      text-align: center;
     }
     .otome-primary-btn:hover {
       transform: translateY(-2px);
@@ -152,7 +175,7 @@
     }
 
     /* ==========================================
-       VIEW 2: FRESH OTOME MOBILE GAME STAGE (清新乙女手遊對話介面)
+       VIEW 2: FRESH OTOME DIALOGUE STAGE (RWD)
        ========================================== */
     .vn-stage {
       position: relative;
@@ -174,19 +197,18 @@
       100% { transform: scale(1.04) translate(-1%, -1%); }
     }
 
-    /* Soft Pastel Vignette */
     .scene-shade {
       position: absolute; inset: 0; z-index: 2; pointer-events: none;
       background: linear-gradient(
         180deg,
         rgba(255, 248, 250, 0.22) 0%,
         transparent 45%,
-        rgba(252, 238, 243, 0.68) 100%
+        rgba(252, 238, 243, 0.72) 100%
       );
       transition: background 0.7s ease;
     }
 
-    /* Soft Dreamy Transition Veil during Scene Transition Interludes */
+    /* Soft Dreamy Transition Veil */
     .transition-veil {
       position: absolute; inset: 0; z-index: 12; pointer-events: none;
       background: radial-gradient(
@@ -200,22 +222,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 16px;
     }
     .transition-veil.active {
       opacity: 1;
     }
     .transition-center-card {
-      margin-bottom: 140px;
-      padding: 14px 28px;
+      margin-bottom: clamp(110px, 18vh, 160px);
+      padding: 12px clamp(18px, 3vw, 28px);
       border-radius: 999px;
-      background: rgba(255, 252, 254, 0.88);
+      background: rgba(255, 252, 254, 0.9);
       border: 1.5px solid var(--glass-border);
       box-shadow: 0 12px 32px rgba(184, 84, 116, 0.16);
       color: var(--rose-deep);
       font-family: 'Noto Serif TC', serif;
-      font-size: 0.92rem;
+      font-size: clamp(0.8rem, 1.4vw, 0.92rem);
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
+      text-align: center;
       transform: translateY(8px);
       transition: transform 0.6s ease;
     }
@@ -230,25 +254,34 @@
 
     /* Top Otome Status Bar */
     .corner-nav {
-      position: absolute; top: 14px; left: 18px; right: 18px; z-index: 25;
-      display: flex; justify-content: space-between; align-items: center;
+      position: absolute;
+      top: max(14px, env(safe-area-inset-top));
+      left: clamp(12px, 2vw, 20px);
+      right: clamp(12px, 2vw, 20px);
+      z-index: 25;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
       pointer-events: none;
     }
     .nav-left, .nav-right {
-      display: flex; gap: 8px; align-items: center;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
       pointer-events: auto;
     }
     .ghost-nav-btn {
-      background: rgba(255, 252, 253, 0.85);
+      background: rgba(255, 252, 253, 0.88);
       border: 1px solid var(--glass-border);
       color: var(--text-dark);
       padding: 6px 14px; border-radius: 999px;
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: 0.76rem; font-weight: 500;
+      font-size: clamp(0.72rem, 1.1vw, 0.76rem);
+      font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 14px rgba(184, 84, 116, 0.12);
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .ghost-nav-btn:hover {
       color: var(--rose-deep);
@@ -256,16 +289,20 @@
       background: #ffffff;
     }
     .chapter-pill {
-      background: rgba(255, 252, 253, 0.9);
+      background: rgba(255, 252, 253, 0.92);
       border: 1px solid var(--glass-border);
       color: var(--rose-deep);
-      padding: 6px 16px; border-radius: 999px;
-      font-size: 0.78rem;
+      padding: 6px 15px; border-radius: 999px;
+      font-size: clamp(0.73rem, 1.15vw, 0.78rem);
       font-weight: 700;
       letter-spacing: 0.04em;
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 14px rgba(184, 84, 116, 0.12);
       transition: all 0.35s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 60vw;
     }
 
     /* FRAMELESS FULL-BODY CHARACTER STANDING DIRECTLY IN SCENE */
@@ -275,13 +312,13 @@
       bottom: 3%;
       transform: translateX(-50%);
       height: 91%;
-      width: min(520px, 90vw);
+      width: min(520px, 92vw);
       z-index: 10;
       pointer-events: none;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      transition: opacity 0.55s ease, transform 0.55s ease;
+      transition: opacity 0.55s ease, transform 0.55s ease, height 0.35s ease;
     }
     .character-stage.hidden-stage {
       opacity: 0;
@@ -327,13 +364,13 @@
     /* Bottom Clean Otome Dialogue & Choices Area */
     .vn-dialogue-area {
       position: relative; z-index: 20;
-      width: min(850px, 93vw);
-      margin: 0 auto 16px auto;
+      width: min(850px, 94vw);
+      margin: 0 auto max(16px, env(safe-area-inset-bottom)) auto;
       display: flex; flex-direction: column;
       gap: 10px;
     }
 
-    /* Choices Container: Hidden while story beats play, pops in after story finishes! */
+    /* Choices Container */
     .choices-container {
       display: flex; flex-direction: column; gap: 8px;
       opacity: 0;
@@ -353,13 +390,13 @@
       position: relative;
       width: 100%;
       text-align: left;
-      padding: 11px 20px;
+      padding: clamp(10px, 1.5vw, 12px) clamp(14px, 2.2vw, 20px);
       border-radius: 14px;
-      background: rgba(255, 252, 254, 0.92);
+      background: rgba(255, 252, 254, 0.94);
       border: 1.5px solid var(--glass-border);
       color: var(--text-dark);
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: 0.86rem;
+      font-size: clamp(0.81rem, 1.3vw, 0.86rem);
       font-weight: 500;
       line-height: 1.48;
       cursor: pointer;
@@ -367,9 +404,9 @@
       box-shadow: 0 8px 24px rgba(184, 84, 116, 0.14);
       transition: all 0.22s ease;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
     }
-    .vn-choice-btn:hover {
+    .vn-choice-btn:hover, .vn-choice-btn:active {
       background: #ffffff;
       border-color: var(--rose-primary);
       color: var(--rose-deep);
@@ -399,7 +436,7 @@
       background: var(--glass-white);
       border: 1.5px solid var(--glass-border);
       border-radius: 20px;
-      padding: 20px 24px 16px 24px;
+      padding: clamp(17px, 2.2vw, 20px) clamp(16px, 2.8vw, 24px) clamp(12px, 1.8vw, 16px);
       box-shadow:
         0 14px 40px rgba(168, 82, 110, 0.18),
         inset 0 0 0 2px rgba(255, 255, 255, 0.7);
@@ -411,18 +448,17 @@
       border-color: var(--rose-primary);
     }
 
-    /* Floating Otome Speaker Name Ribbon */
     .speaker-ribbon {
       position: absolute;
       top: -14px;
-      left: 22px;
+      left: clamp(16px, 2.5vw, 22px);
       background: linear-gradient(135deg, #e37e9b 0%, #c65b7c 100%);
       color: #ffffff;
-      padding: 4px 18px;
+      padding: 4px 16px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: clamp(0.76rem, 1.2vw, 0.82rem);
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       box-shadow: 0 4px 12px rgba(198, 91, 124, 0.32);
       border: 1.5px solid rgba(255, 255, 255, 0.85);
       display: flex;
@@ -437,8 +473,8 @@
 
     .beat-step-badge {
       position: absolute;
-      top: 10px;
-      right: 20px;
+      top: 9px;
+      right: clamp(14px, 2vw, 20px);
       font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 500;
@@ -453,9 +489,9 @@
     }
 
     .story-text {
-      font-size: 0.95rem;
+      font-size: clamp(0.86rem, 1.4vw, 0.95rem);
       color: var(--text-dark);
-      line-height: 1.72;
+      line-height: 1.7;
       font-weight: 500;
     }
     .story-text.is-narration {
@@ -472,13 +508,12 @@
       font-weight: 600;
     }
 
-    /* Click to Continue Prompt at bottom-right of dialogue box */
     .next-beat-hint {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 5px;
-      font-size: 0.75rem;
+      font-size: clamp(0.71rem, 1.1vw, 0.75rem);
       color: var(--rose-deep);
       font-weight: 700;
       margin-top: 6px;
@@ -493,24 +528,27 @@
       50% { transform: translateY(2px); opacity: 1; }
     }
 
-    /* Ending Modal (Fresh Otome Style) */
+    /* Ending Modal */
     .ending-modal {
       position: fixed; inset: 0; z-index: 100;
-      background: rgba(250, 235, 241, 0.82);
+      background: rgba(250, 235, 241, 0.85);
       backdrop-filter: blur(16px);
       display: none; align-items: center; justify-content: center;
-      padding: 20px;
+      padding: 16px;
     }
     .ending-modal.open { display: flex; }
     .ending-card {
       max-width: 560px; width: 100%;
+      max-height: 90dvh;
+      overflow-y: auto;
       background: rgba(255, 252, 254, 0.96);
       border: 1.5px solid var(--glass-border);
       border-radius: 24px;
-      padding: 30px 32px; text-align: center;
+      padding: clamp(22px, 4vw, 32px);
+      text-align: center;
       box-shadow:
         0 24px 65px rgba(184, 84, 116, 0.22),
-        0 0 0 6px rgba(255, 255, 255, 0.65);
+        0 0 0 5px rgba(255, 255, 255, 0.65);
     }
     .ending-badge {
       display: inline-block;
@@ -524,12 +562,81 @@
     .ending-card h3 {
       font-family: 'Noto Serif TC', serif;
       color: var(--text-dark);
-      font-size: 1.32rem; margin-bottom: 14px;
+      font-size: clamp(1.15rem, 2.2vw, 1.32rem);
+      margin-bottom: 14px;
     }
     .ending-card p {
       color: var(--text-muted);
-      font-size: 0.9rem; line-height: 1.8;
-      margin-bottom: 24px;
+      font-size: clamp(0.84rem, 1.35vw, 0.9rem);
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    /* =====================================================
+       RWD BREAKPOINTS (Tablet / Mobile Portrait / Touch)
+       ===================================================== */
+    @media (max-width: 900px) {
+      .character-stage {
+        height: 88%;
+        width: min(460px, 94vw);
+      }
+      .prologue-top-bar {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .prologue-book {
+        padding: 18px 16px;
+        border-radius: 20px;
+      }
+      .prologue-top-bar {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .ending-tracker {
+        justify-content: center;
+      }
+      .otome-primary-btn {
+        width: 100%;
+      }
+      .character-stage {
+        height: 83%;
+        width: 98vw;
+        bottom: 9%;
+      }
+      .vn-dialogue-area {
+        width: 95vw;
+        gap: 7px;
+      }
+      .vn-choice-btn {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 10px 14px;
+      }
+      .caution-whisper {
+        opacity: 0.88;
+        transform: none;
+        align-self: flex-end;
+        font-size: 0.7rem;
+      }
+      .chapter-pill {
+        max-width: 48vw;
+        padding: 5px 11px;
+      }
+      .ghost-nav-btn {
+        padding: 5px 10px;
+      }
+    }
+
+    @media (hover: none) {
+      .caution-whisper {
+        opacity: 0.85;
+        transform: none;
+      }
     }
   </style>
 </head>
@@ -565,7 +672,7 @@
         </div>
 
         <div class="prologue-footer">
-          <button class="otome-primary-btn" onclick="startFromPrologue()">✦ 踏入書中世界（開始第一章劇情） ➔</button>
+          <button class="otome-primary-btn" id="startFromPrologueBtn">✦ 踏入書中世界（開始第一章劇情） ➔</button>
         </div>
       </div>
     </section>
@@ -586,11 +693,11 @@
 
       <nav class="corner-nav">
         <div class="nav-left">
-          <button class="ghost-nav-btn" onclick="backToPrologue()">← 返回前情提要</button>
+          <button class="ghost-nav-btn" id="backToPrologueBtn">← 返回前情提要</button>
           <span class="chapter-pill" id="chapterPill">第一章：皇室玻璃玫瑰溫室</span>
         </div>
         <div class="nav-right">
-          <button class="ghost-nav-btn" id="bgmBtn" onclick="toggleBgm()">♪ 音樂</button>
+          <button class="ghost-nav-btn" id="bgmBtn">♪ 音樂</button>
         </div>
       </nav>
 
@@ -610,7 +717,7 @@
         <div class="choices-container" id="choicesContainer"></div>
 
         <!-- Clicking the dialogue box advances the story beat by beat -->
-        <div class="vn-textbox" id="vnTextbox" onclick="advanceStoryBeat()">
+        <div class="vn-textbox" id="vnTextbox">
           <div class="speaker-ribbon" id="speakerRibbon">✦ 場景描寫</div>
           <div class="beat-step-badge" id="beatStepBadge">劇情 1 / 3</div>
           <div class="dialogue-content-wrap">
@@ -627,777 +734,773 @@
         <span class="ending-badge" id="endingBadge">ENDING UNLOCKED</span>
         <h3 id="endingTitle"></h3>
         <p id="endingDesc"></p>
-        <button class="otome-primary-btn" onclick="closeEndingModal()">重新輪迴（返回前情提要，探索其他結局）</button>
+        <button class="otome-primary-btn" id="closeEndingModalBtn">重新輪迴（返回前情提要，探索其他結局）</button>
       </div>
     </div>
   </div>
 
+  <!-- Offline Fallback if CDN is blocked in sandboxed preview -->
   <script>
-    // =====================================================
-    // 9 CHAPTERS SCRIPT WITH:
-    // 1. Chapter Story Beats (劇情跑完才出選項)
-    // 2. In-Scene Gentle / Danger Reaction Beat (選完後當場反應)
-    // 3. Multi-Beat Scene Transition Interlude (轉換場景時的過渡劇情，不直接生硬切換)
-    // =====================================================
-    const CHAPTERS = [
-      {
-        id: 1,
-        title: '第一章：皇室玻璃玫瑰溫室',
-        bg: 'assets/bg_garden.jpg',
-        bgFilter: 'brightness(1.02) saturate(1.05)',
-        expr: 'default',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '陽光灑落的皇室玻璃溫室裡，純白玫瑰花瓣隨風輕輕飄落，空氣中帶著冰冷而優雅的氣息。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克低頭修剪著玫瑰枝葉，紅眸毫無溫度。看到妳走近，他冷笑著將修枝剪在修長指尖轉了一圈。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「尊貴的未婚妻殿下，今天又想拿那個鈴鐺來命令我做什麼？」' }
-        ],
-        gentleText: '「塞德里克，我今天不是來找麻煩的，花開得很好，不是嗎？」',
-        gentleReactionExpr: 'default',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他修剪花枝的動作微微一頓，似乎沒想到平日驕縱跋扈的妳會說出這番話，深紅的眼眸掠過一絲狐疑：「……但願殿下說的是真心話。」'
-        },
-        dangerText: '晃動手中的噬心契約母鈴：「既然知道我是未婚妻，還不放下剪刀聽候命令？」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他驟然貼近，將冰冷的剪刀貼上妳的臉頰低語：「殿下真愛開玩笑，您的心跳……好像有點快呢。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：從午後溫室至深夜星辰塔 ✦',
-        transitionBeats: [
-          '午後的溫室茶會在微妙的氣氛中落幕。看著塞德里克轉身離去的孤傲背影，妳深知僅憑一兩句話，還無法輕易抹去原主留下的陰影。',
-          '直到夜幕低垂、宮燈漸次熄滅，妳忽然想起原著裡塞德里克每逢深夜都會獨自登上「星辰觀測大魔法塔」壓抑契約反噬——於是妳披上斗篷，提著提燈踏上了通往高塔的迴旋石階……'
-        ]
-      },
-      {
-        id: 2,
-        title: '第二章：星辰觀測大魔法塔',
-        bg: 'assets/bg_tower.jpg',
-        bgFilter: 'brightness(0.95) saturate(1.08)',
-        expr: 'default',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '巨大的黃銅星象儀緩緩運轉，夜空繁星如屑，四周寂靜無聲。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克站在觀測台邊把玩著「噬心契約母鈴」，見妳推門而入，他連頭也沒回。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「深夜造訪禁地，大公府的眼線可不會放過妳。你是來確認我究竟受了多少折磨的嗎？」' }
-        ],
-        gentleText: '「我只是擔心你的傷勢，把鈴鐺還給我吧，我們不需要這個。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '塞德里克猛地轉過身，月光下他怔怔地看著妳伸出的手，耳根浮現一抹極淡的薄紅：「擔心我……？妳知不知道這句話聽起來有多危險。」'
-        },
-        dangerText: '伸手強奪他指間的母鈴：「少廢話，這枚母鈴本來就是我的，快交出來！」',
-        dangerReactionExpr: 'hostile',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他猛然回頭將妳扣壓在壁面上，鈴鐺在耳邊晃動發出脆響：「想要回去？那就跪下來求我啊。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：夜風散盡・晨曦大聖堂彌撒 ✦',
-        transitionBeats: [
-          '星辰塔頂的夜風吹散了兩人之間的劍拔弩張，卻吹不散橫亙在十年前那場王宮大火背後的重重迷霧。',
-          '隔日清晨，帝國迎來了一年一度的追思彌撒。為了替當年罹難的阿斯蘭亡魂祈福，妳跟隨塞德里克的馬車穿過晨霧，來到了莊嚴肅穆的「聖庭大聖堂祈禱光廊」……'
-        ]
-      },
-      {
-        id: 3,
-        title: '第三章：聖庭大聖堂祈禱光廊',
-        bg: 'assets/bg_cathedral.jpg',
-        bgFilter: 'brightness(1.0) saturate(1.04)',
-        expr: 'default',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '宏大的唱詩班回音與彩繪玻璃折射的聖光交織，神聖卻透著一絲壓抑。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克站在巨大的聖母像前，神情沒有一絲虔誠。妳注意到他左肩隱隱作痛的舊傷正牽動著呼吸——那正是十年前火場中留下的烙印。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「連神明都對十年前的那場大火視而不見……殿下跟到這裡，也是來看我笑話的嗎？」' }
-        ],
-        gentleText: '「如果這座神殿給不了你救贖，那就由我來陪你走向黑暗。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '彩繪玻璃的光影落在他微顫的銀白睫毛上，他深深凝視著妳，嗓音低啞而震動：「陪我走向黑暗……？殿下，這可是妳親口許下的承諾。」'
-        },
-        dangerText: '冷眼嘲弄他肩上的舊傷：「連神明都捨棄的亡國遺孤，在這裡假裝什麼虔誠？」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他緩緩轉過身，聖光下的猩紅雙眸透著令人戰慄的瘋狂：「神明從未救過我……既然殿下這麼喜歡看我墮落，那我就拉著妳一起下地獄。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：聖堂歸途・血色長廊的異響 ✦',
-        transitionBeats: [
-          '離開大聖堂後，妳一反常態的舉動不僅沒有讓塞德里克完全放下戒心，反而在他心底激起了更洶湧的暗流與試探慾。',
-          '當晚回到大公府，皇宮密使暗中催動了契約禁制。當妳循著刺耳的鈴聲共鳴走進幽暗的長廊深處時，一扇通往「血色長廊密室」的暗門在燭影中緩緩打開……'
-        ]
-      },
-      {
-        id: 4,
-        title: '第四章：血色長廊的密室',
-        bg: 'assets/bg_chamber.jpg',
-        bgFilter: 'brightness(0.92) contrast(1.06)',
-        expr: 'yandere',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '燭火搖晃，長廊牆面映出搖曳的影子，空氣中瀰漫著舊日權謀的氣息。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克將妳逼入密室角落，手裡的契約母鈴正發出刺耳的共鳴，眼底的偏執幾乎壓抑不住。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「妳以為裝出溫柔的樣子，我就會忘記當年的痛苦嗎？」' }
-        ],
-        gentleText: '「我不需要你立刻相信我，但我會用行動證明，我不是當年的那個惡魔。」',
-        gentleReactionExpr: 'default',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '看著妳毫不閃躲的清澈雙眸，塞德里克緊扣在牆面的指節一點點鬆開，眼底的狂躁漸漸平息：「……好，那我就拭目以待，看看妳所謂的行動。」'
-        },
-        dangerText: '挑釁地揚起下巴：「忘不掉最好，這輩子你都別想逃出我的手掌心。」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他低低地笑出聲，指腹用力摩挲過妳的頸側：「好啊……那我們就看看，最後究竟是誰把誰鎖在這間密室裡。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：為解魔咒・潛入祕密檔案室 ✦',
-        transitionBeats: [
-          '密室裡的交鋒讓妳徹底明白，只要「噬心契約母鈴」的詛咒還存在一天，塞德里克就永遠無法真正卸下心防。',
-          '為了履行用行動證明的諾言，隔天午後妳趁著大公府守衛交接的空檔，獨自帶著鑰匙潛入了塵封多年的「大公府祕密檔案室」，翻找記載著契約解法の上古卷宗……'
-        ]
-      },
-      {
-        id: 5,
-        title: '第五章：大公府的祕密檔案室',
-        bg: 'assets/bg_tower.jpg',
-        bgFilter: 'brightness(0.96) sepia(0.15)',
-        expr: 'default',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '成堆的古老卷宗與泛黃羊皮紙靜靜陳列，細微的塵土在柔和微光中飛舞。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '妳在翻找解除契約的方法時意外觸動機關，塞德里克及時伸手將妳拉回懷中，兩人的心跳在寂靜中清晰可聞。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「為什麼要查這個？妳想擺脫我？」' }
-        ],
-        gentleText: '「我想擺脫的不是你，是這個綁住我們彼此的詛咒。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '懷中的溫度讓塞德里克渾身微僵，他看著妳散落一地的契約解咒筆記，冷峻的眉眼終於徹底柔和下來：「……笨蛋，查這種禁書被皇帝發現會沒命的。」'
-        },
-        dangerText: '用力推開他的懷抱：「沒錯，誰想跟一個隨時會失控的瘋子綁在一起！」',
-        dangerReactionExpr: 'hostile',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他眼神驟冷，反手扣緊妳的手腕按在卷宗架上：「想擺脫我？太遲了，從妳踏進這座大公府的那一刻起，妳就別想全身而退。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：尋覓解藥・暴風雨襲向湖畔別館 ✦',
-        transitionBeats: [
-          '透過檔案室的古卷記載，你們得知能中和噬心契約反噬的「月見草」，只生長在王都郊外的鏡湖畔。',
-          '然而當妳與塞德里克連夜乘車趕往郊外別館時，天邊驟然烏雲密布、雷電交加，一場突如其來的傾盆暴雨沖毀了歸路，將你們困在了「暴風雨中的湖畔別館」……'
-        ]
-      },
-      {
-        id: 6,
-        title: '第六章：暴風雨中的湖畔別館',
-        bg: 'assets/bg_garden.jpg',
-        bgFilter: 'brightness(0.88) hue-rotate(195deg) saturate(0.9)',
-        expr: 'hostile',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '窗外雷雨交加，閃電劃破夜空，湖畔木屋內只有壁爐散發著溫暖的微光。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '暴雨切斷了外界聯繫，塞德里克的舊傷因濕氣而復發，額頭滲出細密冷汗，咬牙拒絕妳的靠近。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「別碰我……妳又想玩什麼把戲？」' }
-        ],
-        gentleText: '「別動，讓我幫你按壓傷口。這一次，我不會再傷害你了。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '溫熱的手掌隔著繃帶輕輕覆上他的傷處，塞德里克緊繃的身軀微微顫抖，終於卸下防備靠在妳肩頭，低聲呢喃：「……為什麼現在才對我這麼好……」'
-        },
-        dangerText: '居高臨下地看著他冷笑：「真可憐啊，堂堂黑薔薇公爵也有這麼狼狽的時候？」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '閃電映亮他蒼白卻俊美的臉龐，他猛地拽住妳的衣領將妳拉倒在身側：「狼狽？那殿下不妨親自試試，重傷的野獸會不會咬斷妳的喉嚨。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：雨過天晴・夜玫瑰盛開的露台 ✦',
-        transitionBeats: [
-          '整整一夜的狂風暴雨，在壁爐溫暖的火光與妳徹夜未眠的照料下終於漸漸停歇。而在替妳蓋上毛毯時，塞德里克無意間瞥見了妳滑落領口下那道熟悉的舊疤。',
-          '次日夜晚，雨後初晴的夜空升起一輪皎潔明月。傷勢好轉的塞德里克主動敲響妳的房門，邀妳一同走上灑滿月光的「湖畔月下露台」……'
-        ]
-      },
-      {
-        id: 7,
-        title: '第七章：月下露台的真心試探',
-        bg: 'assets/bg_garden.jpg',
-        bgFilter: 'brightness(0.94) hue-rotate(215deg) saturate(1.02)',
-        expr: 'shy',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '皎潔月光灑滿露台，夜晚的微風帶著白玫瑰的清甜香氣。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '傷勢好轉的塞德里克與妳並肩站在露台。他突然解開外衣領口，露出左肩那道與妳一模一樣的舊疤。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「十年前那場火海裡，救我出來的那個身影……真的是妳嗎？」' }
-        ],
-        gentleText: '「是我。不管你信不願信，當時的我，從沒想過讓你死在火裡。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '塞德里克眼眶微紅，顫抖著伸手將妳緊緊擁入懷中，聲音帶著失而復得的哽咽：「我找了妳整整十年……原來妳一直都在我身邊。」'
-        },
-        dangerText: '冷笑著別開視線：「那又如何？早知道你會變成這樣，當年我就該讓你在火裡自生自滅。」',
-        dangerReactionExpr: 'hostile',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '月光下他的眼神徹底碎裂成冰，緩緩拉起衣領遮住傷疤：「……我明白了。原來連我唯一僅存的救贖，都只是一場笑話。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：重返王都・山雨欲來的政變前夕 ✦',
-        transitionBeats: [
-          '十年前火海救贖的真相在月光下揭曉，然而平靜的時光並未持續太久——遠在王都的皇帝察覺塞德里克逐漸脫離掌控，已暗中調動禁衛軍準備血洗大公府。',
-          '當你們連夜趕回王都時，整座皇城已陷入風聲鶴唳的戒嚴之中，原著中最後的轉折點「王都政變前夕」悄然降臨……'
-        ]
-      },
-      {
-        id: 8,
-        title: '第八章：王都政變的前夕',
-        bg: 'assets/bg_cathedral.jpg',
-        bgFilter: 'brightness(0.92) contrast(1.05)',
-        expr: 'default',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '皇城內外暗潮洶湧，禁衛軍整齊的靴聲在長街遠處隱隱迴盪。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '奪權之夜即將來臨，原著中塞德里克將在此時黑化。他卻將一把防身短刃交到妳手中，紅眸深邃如潭。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「明天過後，我就是這個帝國的主宰。如果妳害怕，現在還來得及走。」' }
-        ],
-        gentleText: '「我不走。不管是深淵還是王座，我都陪你一起走過去。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他低頭在妳手背烙下一記輕吻，紅眸裡映著溫柔而堅定的光芒：「等我回來。今夜過後，再也沒有人能分開我們。」'
-        },
-        dangerText: '握緊短刃指向他的心口：「既然你把刀給我，就不怕我現在替皇帝殺了你嗎？」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '他非但不退，反而握住妳持刀的手抵在自己胸膛，眼底翻湧著偏執的狂熱：「動手啊，殿下。只要妳刺下去，我們就能永遠留在這一刻了。」'
-        },
-        transitionToNextTitle: '✦ 幕間過渡：午夜零點・決戰之夜的鐘聲敲響 ✦',
-        transitionBeats: [
-          '夜色愈發深沉，妳守在大公府內殿，聽著窗外長街傳來的鐵蹄與刀劍交擊聲，每一分每一秒都如同漫長的煎熬。',
-          '終於，午夜零點的鐘聲在王都上空轟然敲響！沖天的火光映紅了半邊夜幕，大公府的大門被人從外推開——決戰之夜的最終時刻來臨了。'
-        ]
-      },
-      {
-        id: 9,
-        title: '第九章：決戰之夜的鐘聲',
-        bg: 'assets/bg_chamber.jpg',
-        bgFilter: 'brightness(0.95) saturate(1.12)',
-        expr: 'hostile',
-        beats: [
-          { speaker: '✦ 場景氛圍', isNarration: true, text: '零點的鐘聲敲響，皇宮方向燃起沖天火光，遠處喊殺聲震天。' },
-          { speaker: '✦ 劇情描寫', isNarration: true, text: '叛軍攻入大公府核心，原著中原主死亡的命運節點降臨。塞德里克全身浴血站在妳身前，回頭對妳露出一個淒涼而絕望的笑。' },
-          { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「殿下，最後再看我一眼吧……」' }
-        ],
-        gentleText: '不拿武器，直接上前緊緊抱住他淌血的身軀：「結束了，塞德里克，我們活下來了。」',
-        gentleReactionExpr: 'shy',
-        gentleReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '手中的長劍噹啷一聲落地，塞德里克怔怔地感受著妳溫暖的擁抱，滾燙的淚水終於滑落臉龐：「……嗯，結束了，我們活下來了。」'
-        },
-        openText: '將失去魔力的契約母鈴放回他掌心，退後一步望向破曉的天際：「詛咒已經解開了，塞德里克。從今往後你是自由的——若未來某天你放下了過去，我們在最初的白玫瑰溫室再見吧。」',
-        openReactionExpr: 'default',
-        openReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '塞德里克怔怔地握緊掌心尚存妳體溫的鈴鐺，晨曦穿過硝煙落在他銀白色的髮絲上。他深深凝視著妳轉身離去的背影，紅眸中翻湧著千言萬語：「……妳以為給了我自由，我就會放手嗎？等著我，殿下。」'
-        },
-        dangerText: '後退一步冷眼看著浴血的他：「這一切都是你咎由自取，別指望我會同情你。」',
-        dangerReactionExpr: 'yandere',
-        dangerReactionBeat: {
-          speaker: '✦ 塞德里克・阿斯蘭',
-          text: '浴血的塞德里克低低地笑了起來，一步步逼近並扣住妳的手腕：「既然連最後一刻妳都不肯給我真心……那就一起墜入深淵吧。」'
-        },
-        transitionToNextTitle: '',
-        transitionBeats: []
-      }
-    ];
-
-    let currentChapterIdx = 0;
-    let currentBeatIdx = 0;
-    let currentTransitionBeatIdx = 0;
-    let dangerCount = 0;
-    let lastChoiceType = 'gentle'; // 'gentle' | 'open' | 'danger'
-    let unlockedEndings = { true: false, open: false, dark: false };
-
-    // Phases:
-    // 'story' (playing 3 chapter beats)
-    // 'choices' (waiting for player choice)
-    // 'reaction' (playing Cedric's in-scene response to the choice)
-    // 'transition' (playing 2-beat transitional story between chapters before next chapter starts)
-    let phase = 'story';
-    let typingTimer = null;
-    let isTyping = false;
-    let fullTargetText = '';
-
-    let bgmEnabled = false;
-    let bgmTimer = null;
-    let audioCtx = null;
-
-    function getAudioCtx() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if (AC) audioCtx = new AC();
-      }
-      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
+    if (typeof window.jQuery === 'undefined') {
+      (function() {
+        function JQ(sel, ctx) {
+          if (!(this instanceof JQ)) return new JQ(sel, ctx);
+          if (typeof sel === 'function') {
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sel);
+            else sel();
+            this.els = [];
+            return;
+          }
+          if (typeof sel === 'string') {
+            this.els = Array.from((ctx || document).querySelectorAll(sel));
+          } else if (sel instanceof Element || sel === window || sel === document) {
+            this.els = [sel];
+          } else if (sel && sel.els) {
+            this.els = sel.els;
+          } else {
+            this.els = [];
+          }
+        }
+        JQ.prototype.each = function(fn) { this.els.forEach((el, i) => fn.call(el, i, el)); return this; };
+        JQ.prototype.addClass = function(c) { return this.each(function() { c.split(/\s+/).forEach(k => k && this.classList.add(k)); }); };
+        JQ.prototype.removeClass = function(c) { return this.each(function() { c.split(/\s+/).forEach(k => k && this.classList.remove(k)); }); };
+        JQ.prototype.toggleClass = function(c, state) { return this.each(function() { this.classList.toggle(c, state); }); };
+        JQ.prototype.hasClass = function(c) { return this.els[0] ? this.els[0].classList.contains(c) : false; };
+        JQ.prototype.text = function(v) { if (v === undefined) return this.els[0] ? this.els[0].textContent : ''; return this.each(function() { this.textContent = v; }); };
+        JQ.prototype.html = function(v) { if (v === undefined) return this.els[0] ? this.els[0].innerHTML : ''; return this.each(function() { this.innerHTML = v; }); };
+        JQ.prototype.css = function(prop, val) {
+          if (typeof prop === 'object') {
+            return this.each(function() { Object.assign(this.style, prop); });
+          }
+          if (val === undefined) return this.els[0] ? getComputedStyle(this.els[0])[prop] : '';
+          return this.each(function() { this.style[prop] = val; });
+        };
+        JQ.prototype.attr = function(k, v) {
+          if (v === undefined) return this.els[0] ? this.els[0].getAttribute(k) : null;
+          return this.each(function() { this.setAttribute(k, v); });
+        };
+        JQ.prototype.data = function(k) { return this.els[0] ? this.els[0].getAttribute('data-' + k) : undefined; };
+        JQ.prototype.on = function(evt, selectorOrFn, fn) {
+          if (typeof selectorOrFn === 'function') {
+            return this.each(function() { this.addEventListener(evt, selectorOrFn); });
+          }
+          return this.each(function() {
+            this.addEventListener(evt, function(e) {
+              const target = e.target.closest(selectorOrFn);
+              if (target && this.contains(target)) fn.call(target, e);
+            });
+          });
+        };
+        JQ.prototype.hide = function() { return this.css('display', 'none'); };
+        JQ.prototype.show = function() { return this.css('display', ''); };
+        JQ.prototype.fadeIn = function(dur, cb) {
+          return this.each(function() {
+            this.style.opacity = 0;
+            this.style.transition = `opacity ${dur || 250}ms ease`;
+            requestAnimationFrame(() => { this.style.opacity = 1; });
+            if (cb) setTimeout(cb, dur || 250);
+          });
+        };
+        JQ.prototype.fadeOut = function(dur, cb) {
+          return this.each(function() {
+            this.style.transition = `opacity ${dur || 250}ms ease`;
+            this.style.opacity = 0;
+            if (cb) setTimeout(cb, dur || 250);
+          });
+        };
+        window.jQuery = window.$ = JQ;
+      })();
     }
+  </script>
 
-    function playSfx(type) {
-      const ctx = getAudioCtx();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      if (type === 'chime') {
-        [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+  <!-- Main Game Logic Powered by jQuery ($) -->
+  <script>
+    $(function() {
+      const CHAPTERS = [
+        {
+          id: 1,
+          title: '第一章：皇室玻璃玫瑰溫室',
+          bg: 'assets/bg_garden.jpg',
+          bgFilter: 'brightness(1.02) saturate(1.05)',
+          expr: 'default',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '陽光灑落的皇室玻璃溫室裡，純白玫瑰花瓣隨風輕輕飄落，空氣中帶著冰冷而優雅的氣息。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克低頭修剪著玫瑰枝葉，紅眸毫無溫度。看到妳走近，他冷笑著將修枝剪在修長指尖轉了一圈。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「尊貴的未婚妻殿下，今天又想拿那個鈴鐺來命令我做什麼？」' }
+          ],
+          gentleText: '「塞德里克，我今天不是來找麻煩的，花開得很好，不是嗎？」',
+          gentleReactionExpr: 'default',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他修剪花枝的動作微微一頓，似乎沒想到平日驕縱跋扈的妳會說出這番話，深紅的眼眸掠過一絲狐疑：「……但願殿下說的是真心話。」'
+          },
+          dangerText: '晃動手中的噬心契約母鈴：「既然知道我是未婚妻，還不放下剪刀聽候命令？」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他驟然貼近，將冰冷的剪刀貼上妳的臉頰低語：「殿下真愛開玩笑，您的心跳……好像有點快呢。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：從午後溫室至深夜星辰塔 ✦',
+          transitionBeats: [
+            '午後的溫室茶會在微妙的氣氛中落幕。看著塞德里克轉身離去的孤傲背影，妳深知僅憑一兩句話，還無法輕易抹去原主留下的陰影。',
+            '直到夜幕低垂、宮燈漸次熄滅，妳忽然想起原著裡塞德里克每逢深夜都會獨自登上「星辰觀測大魔法塔」壓抑契約反噬——於是妳披上斗篷，提著提燈踏上了通往高塔的迴旋石階……'
+          ]
+        },
+        {
+          id: 2,
+          title: '第二章：星辰觀測大魔法塔',
+          bg: 'assets/bg_tower.jpg',
+          bgFilter: 'brightness(0.95) saturate(1.08)',
+          expr: 'default',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '巨大的黃銅星象儀緩緩運轉，夜空繁星如屑，四周寂靜無聲。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克站在觀測台邊把玩著「噬心契約母鈴」，見妳推門而入，他連頭也沒回。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「深夜造訪禁地，大公府的眼線可不會放過妳。你是來確認我究竟受了多少折磨的嗎？」' }
+          ],
+          gentleText: '「我只是擔心你的傷勢，把鈴鐺還給我吧，我們不需要這個。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '塞德里克猛地轉過身，月光下他怔怔地看著妳伸出的手，耳根浮現一抹極淡的薄紅：「擔心我……？妳知不知道這句話聽起來有多危險。」'
+          },
+          dangerText: '伸手強奪他指間的母鈴：「少廢話，這枚母鈴本來就是我的，快交出來！」',
+          dangerReactionExpr: 'hostile',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他猛然回頭將妳扣壓在壁面上，鈴鐺在耳邊晃動發出脆響：「想要回去？那就跪下來求我啊。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：夜風散盡・晨曦大聖堂彌撒 ✦',
+          transitionBeats: [
+            '星辰塔頂的夜風吹散了兩人之間的劍拔弩張，卻吹不散橫亙在十年前那場王宮大火背後的重重迷霧。',
+            '隔日清晨，帝國迎來了一年一度的追思彌撒。為了替當年罹難的阿斯蘭亡魂祈福，妳跟隨塞德里克的馬車穿過晨霧，來到了莊嚴肅穆的「聖庭大聖堂祈禱光廊」……'
+          ]
+        },
+        {
+          id: 3,
+          title: '第三章：聖庭大聖堂祈禱光廊',
+          bg: 'assets/bg_cathedral.jpg',
+          bgFilter: 'brightness(1.0) saturate(1.04)',
+          expr: 'default',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '宏大的唱詩班回音與彩繪玻璃折射的聖光交織，神聖卻透著一絲壓抑。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克站在巨大的聖母像前，神情沒有一絲虔誠。妳注意到他左肩隱隱作痛的舊傷正牽動著呼吸——那正是十年前火場中留下的烙印。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「連神明都對十年前的那場大火視而不見……殿下跟到這裡，也是來看我笑話的嗎？」' }
+          ],
+          gentleText: '「如果這座神殿給不了你救贖，那就由我來陪你走向黑暗。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '彩繪玻璃的光影落在他微顫的銀白睫毛上，他深深凝視著妳，嗓音低啞而震動：「陪我走向黑暗……？殿下，這可是妳親口許下的承諾。」'
+          },
+          dangerText: '冷眼嘲弄他肩上的舊傷：「連神明都捨棄的亡國遺孤，在這裡假裝什麼虔誠？」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他緩緩轉過身，聖光下的猩紅雙眸透著令人戰慄的瘋狂：「神明從未救過我……既然殿下這麼喜歡看我墮落，那我就拉著妳一起下地獄。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：聖堂歸途・血色長廊的異響 ✦',
+          transitionBeats: [
+            '離開大聖堂後，妳一反常態的舉動不僅沒有讓塞德里克完全放下戒心，反而在他心底激起了更洶湧的暗流與試探慾。',
+            '當晚回到大公府，皇宮密使暗中催動了契約禁制。當妳循著刺耳的鈴聲共鳴走進幽暗的長廊深處時，一扇通往「血色長廊密室」的暗門在燭影中緩緩打開……'
+          ]
+        },
+        {
+          id: 4,
+          title: '第四章：血色長廊的密室',
+          bg: 'assets/bg_chamber.jpg',
+          bgFilter: 'brightness(0.92) contrast(1.06)',
+          expr: 'yandere',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '燭火搖晃，長廊牆面映出搖曳的影子，空氣中瀰漫著舊日權謀的氣息。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '塞德里克將妳逼入密室角落，手裡的契約母鈴正發出刺耳的共鳴，眼底的偏執幾乎壓抑不住。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「妳以為裝出溫柔的樣子，我就會忘記當年的痛苦嗎？」' }
+          ],
+          gentleText: '「我不需要你立刻相信我，但我會用行動證明，我不是當年的那個惡魔。」',
+          gentleReactionExpr: 'default',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '看著妳毫不閃躲的清澈雙眸，塞德里克緊扣在牆面的指節一點點鬆開，眼底的狂躁漸漸平息：「……好，那我就拭目以待，看看妳所謂的行動。」'
+          },
+          dangerText: '挑釁地揚起下巴：「忘不掉最好，這輩子你都別想逃出我的手掌心。」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他低低地笑出聲，指腹用力摩挲過妳的頸側：「好啊……那我們就看看，最後究竟是誰把誰鎖在這間密室裡。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：為解魔咒・潛入祕密檔案室 ✦',
+          transitionBeats: [
+            '密室裡的交鋒讓妳徹底明白，只要「噬心契約母鈴」的詛咒還存在一天，塞德里克就永遠無法真正卸下心防。',
+            '為了履行用行動證明的諾言，隔天午後妳趁著大公府守衛交接的空檔，獨自帶著鑰匙潛入了塵封多年的「大公府祕密檔案室」，翻找記載著契約解法的上古卷宗……'
+          ]
+        },
+        {
+          id: 5,
+          title: '第五章：大公府的祕密檔案室',
+          bg: 'assets/bg_tower.jpg',
+          bgFilter: 'brightness(0.96) sepia(0.15)',
+          expr: 'default',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '成堆的古老卷宗與泛黃羊皮紙靜靜陳列，細微的塵土在柔和微光中飛舞。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '妳在翻找解除契約的方法時意外觸動機關，塞德里克及時伸手將妳拉回懷中，兩人的心跳在寂靜中清晰可聞。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「為什麼要查這個？妳想擺脫我？」' }
+          ],
+          gentleText: '「我想擺脫的不是你，是這個綁住我們彼此的詛咒。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '懷中的溫度讓塞德里克渾身微僵，他看著妳散落一地的契約解咒筆記，冷峻的眉眼終於徹底柔和下來：「……笨蛋，查這種禁書被皇帝發現會沒命的。」'
+          },
+          dangerText: '用力推開他的懷抱：「沒錯，誰想跟一個隨時會失控的瘋子綁在一起！」',
+          dangerReactionExpr: 'hostile',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他眼神驟冷，反手扣緊妳的手腕按在卷宗架上：「想擺脫我？太遲了，從妳踏進這座大公府的那一刻起，妳就別想全身而退。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：尋覓解藥・暴風雨襲向湖畔別館 ✦',
+          transitionBeats: [
+            '透過檔案室的古卷記載，你們得知能中和噬心契約反噬的「月見草」，只生長在王都郊外的鏡湖畔。',
+            '然而當妳與塞德里克連夜乘車趕往郊外別館時，天邊驟然烏雲密布、雷電交加，一場突如其來的傾盆暴雨沖毀了歸路，將你們困在了「暴風雨中的湖畔別館」……'
+          ]
+        },
+        {
+          id: 6,
+          title: '第六章：暴風雨中的湖畔別館',
+          bg: 'assets/bg_garden.jpg',
+          bgFilter: 'brightness(0.88) hue-rotate(195deg) saturate(0.9)',
+          expr: 'hostile',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '窗外雷雨交加，閃電劃破夜空，湖畔木屋內只有壁爐散發著溫暖的微光。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '暴雨切斷了外界聯繫，塞德里克的舊傷因濕氣而復發，額頭滲出細密冷汗，咬牙拒絕妳的靠近。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「別碰我……妳又想玩什麼把戲？」' }
+          ],
+          gentleText: '「別動，讓我幫你按壓傷口。這一次，我不會再傷害你了。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '溫熱的手掌隔著繃帶輕輕覆上他的傷處，塞德里克緊繃的身軀微微顫抖，終於卸下防備靠在妳肩頭，低聲呢喃：「……為什麼現在才對我這麼好……」'
+          },
+          dangerText: '居高臨下地看著他冷笑：「真可憐啊，堂堂黑薔薇公爵也有這麼狼狽的時候？」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '閃電映亮他蒼白卻俊美的臉龐，他猛地拽住妳的衣領將妳拉倒在身側：「狼狽？那殿下不妨親自試試，重傷的野獸會不會咬斷妳的喉嚨。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：雨過天晴・夜玫瑰盛開的露台 ✦',
+          transitionBeats: [
+            '整整一夜的狂風暴雨，在壁爐溫暖的火光與妳徹夜未眠的照料下終於漸漸停歇。而在替妳蓋上毛毯時，塞德里克無意間瞥見了妳滑落領口下那道熟悉的舊疤。',
+            '次日夜晚，雨後初晴的夜空升起一輪皎潔明月。傷勢好轉的塞德里克主動敲響妳的房門，邀妳一同走上灑滿月光的「湖畔月下露台」……'
+          ]
+        },
+        {
+          id: 7,
+          title: '第七章：月下露台的真心試探',
+          bg: 'assets/bg_garden.jpg',
+          bgFilter: 'brightness(0.94) hue-rotate(215deg) saturate(1.02)',
+          expr: 'shy',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '皎潔月光灑滿露台，夜晚的微風帶著白玫瑰的清甜香氣。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '傷勢好轉的塞德里克與妳並肩站在露台。他突然解開外衣領口，露出左肩那道與妳一模一樣的舊疤。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「十年前那場火海裡，救我出來的那個身影……真的是妳嗎？」' }
+          ],
+          gentleText: '「是我。不管你信不願信，當時的我，從沒想過讓你死在火裡。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '塞德里克眼眶微紅，顫抖著伸手將妳緊緊擁入懷中，聲音帶著失而復得的哽咽：「我找了妳整整十年……原來妳一直都在我身邊。」'
+          },
+          dangerText: '冷笑著別開視線：「那又如何？早知道你會變成這樣，當年我就該讓你在火裡自生自滅。」',
+          dangerReactionExpr: 'hostile',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '月光下他的眼神徹底碎裂成冰，緩緩拉起衣領遮住傷疤：「……我明白了。原來連我唯一僅存的救贖，都只是一場笑話。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：重返王都・山雨欲來的政變前夕 ✦',
+          transitionBeats: [
+            '十年前火海救贖的真相在月光下揭曉，然而平靜的時光並未持續太久——遠在王都的皇帝察覺塞德里克逐漸脫離掌控，已暗中調動禁衛軍準備血洗大公府。',
+            '當你們連夜趕回王都時，整座皇城已陷入風聲鶴唳的戒嚴之中，原著中最後的轉折點「王都政變前夕」悄然降臨……'
+          ]
+        },
+        {
+          id: 8,
+          title: '第八章：王都政變的前夕',
+          bg: 'assets/bg_cathedral.jpg',
+          bgFilter: 'brightness(0.92) contrast(1.05)',
+          expr: 'default',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '皇城內外暗潮洶湧，禁衛軍整齊的靴聲在長街遠處隱隱迴盪。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '奪權之夜即將來臨，原著中塞德里克將在此時黑化。他卻將一把防身短刃交到妳手中，紅眸深邃如潭。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「明天過後，我就是這個帝國的主宰。如果妳害怕，現在還來得及走。」' }
+          ],
+          gentleText: '「我不走。不管是深淵還是王座，我都陪你一起走過去。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他低頭在妳手背烙下一記輕吻，紅眸裡映著溫柔而堅定的光芒：「等我回來。今夜過後，再也沒有人能分開我們。」'
+          },
+          dangerText: '握緊短刃指向他的心口：「既然你把刀給我，就不怕我現在替皇帝殺了你嗎？」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '他非但不退，反而握住妳持刀的手抵在自己胸膛，眼底翻湧著偏執的狂熱：「動手啊，殿下。只要妳刺下去，我們就能永遠留在這一刻了。」'
+          },
+          transitionToNextTitle: '✦ 幕間過渡：午夜零點・決戰之夜的鐘聲敲響 ✦',
+          transitionBeats: [
+            '夜色愈發深沉，妳守在大公府內殿，聽著窗外長街傳來的鐵蹄與刀劍交擊聲，每一分每一秒都如同漫長的煎熬。',
+            '終於，午夜零點的鐘聲在王都上空轟然敲響！沖天的火光映紅了半邊夜幕，大公府的大門被人從外推開——決戰之夜的最終時刻來臨了。'
+          ]
+        },
+        {
+          id: 9,
+          title: '第九章：決戰之夜的鐘聲',
+          bg: 'assets/bg_chamber.jpg',
+          bgFilter: 'brightness(0.95) saturate(1.12)',
+          expr: 'hostile',
+          beats: [
+            { speaker: '✦ 場景氛圍', isNarration: true, text: '零點的鐘聲敲響，皇宮方向燃起沖天火光，遠處喊殺聲震天。' },
+            { speaker: '✦ 劇情描寫', isNarration: true, text: '叛軍攻入大公府核心，原著中原主死亡的命運節點降臨。塞德里克全身浴血站在妳身前，回頭對妳露出一個淒涼而絕望的笑。' },
+            { speaker: '✦ 塞德里克・阿斯蘭', isNarration: false, text: '「殿下，最後再看我一眼吧……」' }
+          ],
+          gentleText: '不拿武器，直接上前緊緊抱住他淌血的身軀：「結束了，塞德里克，我們活下來了。」',
+          gentleReactionExpr: 'shy',
+          gentleReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '手中的長劍噹啷一聲落地，塞德里克怔怔地感受著妳溫暖的擁抱，滾燙的淚水終於滑落臉龐：「……嗯，結束了，我們活下來了。」'
+          },
+          openText: '將失去魔力的契約母鈴放回他掌心，退後一步望向破曉的天際：「詛咒已經解開了，塞德里克。從今往後你是自由的——若未來某天你放下了過去，我們在最初的白玫瑰溫室再見吧。」',
+          openReactionExpr: 'default',
+          openReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '塞德里克怔怔地握緊掌心尚存妳體溫的鈴鐺，晨曦穿過硝煙落在他銀白色的髮絲上。他深深凝視著妳轉身離去的背影，紅眸中翻湧著千言萬語：「……妳以為給了我自由，我就會放手嗎？等著我，殿下。」'
+          },
+          dangerText: '後退一步冷眼看著浴血的他：「這一切都是你咎由自取，別指望我會同情你。」',
+          dangerReactionExpr: 'yandere',
+          dangerReactionBeat: {
+            speaker: '✦ 塞德里克・阿斯蘭',
+            text: '浴血的塞德里克低低地笑了起來，一步步逼近並扣住妳的手腕：「既然連最後一刻妳都不肯給我真心……那就一起墜入深淵吧。」'
+          },
+          transitionToNextTitle: '',
+          transitionBeats: []
+        }
+      ];
+
+      let currentChapterIdx = 0;
+      let currentBeatIdx = 0;
+      let currentTransitionBeatIdx = 0;
+      let dangerCount = 0;
+      let lastChoiceType = 'gentle';
+      let unlockedEndings = { true: false, open: false, dark: false };
+
+      let phase = 'story';
+      let typingTimer = null;
+      let isTyping = false;
+      let fullTargetText = '';
+
+      let bgmEnabled = false;
+      let bgmTimer = null;
+      let audioCtx = null;
+
+      function getAudioCtx() {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        return audioCtx;
+      }
+
+      function playSfx(type) {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        if (type === 'chime') {
+          [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(f, now + i * 0.055);
+            g.gain.setValueAtTime(0.045, now + i * 0.055);
+            g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.055 + 0.35);
+            osc.connect(g); g.connect(ctx.destination);
+            osc.start(now + i * 0.055); osc.stop(now + i * 0.055 + 0.36);
+          });
+        } else if (type === 'low') {
+          [146.8, 164.8].forEach(f => {
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now);
+            g.gain.setValueAtTime(0.05, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+            osc.connect(g); g.connect(ctx.destination);
+            osc.start(now); osc.stop(now + 0.46);
+          });
+        } else {
           const osc = ctx.createOscillator();
           const g = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(f, now + i * 0.055);
-          g.gain.setValueAtTime(0.045, now + i * 0.055);
-          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.055 + 0.35);
+          osc.frequency.setValueAtTime(660, now);
+          g.gain.setValueAtTime(0.035, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
           osc.connect(g); g.connect(ctx.destination);
-          osc.start(now + i * 0.055); osc.stop(now + i * 0.055 + 0.36);
-        });
-      } else if (type === 'low') {
-        [146.8, 164.8].forEach(f => {
-          const osc = ctx.createOscillator();
-          const g = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(f, now);
-          g.gain.setValueAtTime(0.05, now);
-          g.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(now); osc.stop(now + 0.46);
-        });
-      } else {
-        const osc = ctx.createOscillator();
-        const g = ctx.createGain();
-        osc.frequency.setValueAtTime(660, now);
-        g.gain.setValueAtTime(0.035, now);
-        g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-        osc.connect(g); g.connect(ctx.destination);
-        osc.start(now); osc.stop(now + 0.06);
+          osc.start(now); osc.stop(now + 0.06);
+        }
       }
-    }
 
-    function toggleBgm() {
-      bgmEnabled = !bgmEnabled;
-      document.getElementById('bgmBtn').textContent = bgmEnabled ? '♪ 音樂：開' : '♪ 音樂';
-      if (bgmEnabled) {
-        const notes = [659.25, 783.99, 987.77, 1046.5, 987.77, 783.99];
-        let s = 0;
-        bgmTimer = setInterval(() => {
-          if (!bgmEnabled) return;
-          const ctx = getAudioCtx();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          const osc = ctx.createOscillator();
-          const g = ctx.createGain();
-          osc.frequency.setValueAtTime(notes[s % notes.length], now);
-          g.gain.setValueAtTime(0.022, now);
-          g.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
-          osc.connect(g); g.connect(ctx.destination);
-          osc.start(now); osc.stop(now + 0.45);
-          s++;
-        }, 560);
-      } else if (bgmTimer) clearInterval(bgmTimer);
-    }
+      function setPortraitExpression(expr, triggerShake = false) {
+        $('.expr-img').removeClass('visible');
+        if (expr === 'hostile') $('#faceHostile').addClass('visible');
+        else if (expr === 'yandere') $('#faceYandere').addClass('visible');
+        else if (expr === 'shy') $('#faceShy').addClass('visible');
+        else $('#faceDefault').addClass('visible');
 
-    function setPortraitExpression(expr, triggerShake = false) {
-      const fDef = document.getElementById('faceDefault');
-      const fHos = document.getElementById('faceHostile');
-      const fYan = document.getElementById('faceYandere');
-      const fShy = document.getElementById('faceShy');
-      const holder = document.getElementById('fullbodyHolder');
-
-      fDef.classList.remove('visible');
-      fHos.classList.remove('visible');
-      fYan.classList.remove('visible');
-      fShy.classList.remove('visible');
-
-      if (expr === 'hostile') fHos.classList.add('visible');
-      else if (expr === 'yandere') fYan.classList.add('visible');
-      else if (expr === 'shy') fShy.classList.add('visible');
-      else fDef.classList.add('visible');
-
-      if (triggerShake) {
-        holder.classList.remove('shake-react');
-        void holder.offsetWidth;
-        holder.classList.add('shake-react');
+        if (triggerShake) {
+          const $holder = $('#fullbodyHolder');
+          $holder.removeClass('shake-react');
+          if ($holder.els ? $holder.els[0] : $holder[0]) {
+            void ($holder.els ? $holder.els[0] : $holder[0]).offsetWidth;
+          }
+          $holder.addClass('shake-react');
+        }
       }
-    }
 
-    function startFromPrologue() {
-      playSfx('chime');
-      currentChapterIdx = 0;
-      dangerCount = 0;
-      document.getElementById('prologueScreen').classList.add('hidden');
-      loadChapter(0);
-    }
+      function typeText(text, onComplete) {
+        if (typingTimer) clearInterval(typingTimer);
+        const $storyEl = $('#storyText');
+        fullTargetText = text;
+        $storyEl.text('');
+        isTyping = true;
+        let i = 0;
+        typingTimer = setInterval(() => {
+          i++;
+          $storyEl.text(fullTargetText.slice(0, i));
+          if (i >= fullTargetText.length) {
+            clearInterval(typingTimer);
+            typingTimer = null;
+            isTyping = false;
+            if (onComplete) onComplete();
+          }
+        }, 20);
+      }
 
-    function loadChapter(idx) {
-      currentChapterIdx = idx;
-      currentBeatIdx = 0;
-      phase = 'story';
-
-      const chap = CHAPTERS[currentChapterIdx];
-      const bgEl = document.getElementById('sceneBg');
-      bgEl.style.backgroundImage = `url('${chap.bg}')`;
-      bgEl.style.filter = chap.bgFilter || 'brightness(1.0)';
-
-      // Hide transition veil & restore character sprite on stage
-      document.getElementById('transitionVeil').classList.remove('active');
-      document.getElementById('characterStage').classList.remove('hidden-stage');
-      document.getElementById('speakerRibbon').classList.remove('transition-mode');
-
-      document.getElementById('chapterPill').textContent = chap.title;
-      setPortraitExpression(chap.expr, false);
-
-      // Hide choices while story beats play
-      const box = document.getElementById('choicesContainer');
-      box.classList.remove('active');
-      box.innerHTML = '';
-
-      renderCurrentBeat();
-    }
-
-    function typeText(text, onComplete) {
-      if (typingTimer) clearInterval(typingTimer);
-      const storyEl = document.getElementById('storyText');
-      fullTargetText = text;
-      storyEl.textContent = '';
-      isTyping = true;
-      let i = 0;
-      typingTimer = setInterval(() => {
-        i++;
-        storyEl.textContent = fullTargetText.slice(0, i);
-        if (i >= fullTargetText.length) {
+      function completeTypingImmediately() {
+        if (typingTimer) {
           clearInterval(typingTimer);
           typingTimer = null;
-          isTyping = false;
-          if (onComplete) onComplete();
         }
-      }, 20);
-    }
-
-    function completeTypingImmediately() {
-      if (typingTimer) {
-        clearInterval(typingTimer);
-        typingTimer = null;
-      }
-      isTyping = false;
-      document.getElementById('storyText').textContent = fullTargetText;
-    }
-
-    function renderCurrentBeat() {
-      const chap = CHAPTERS[currentChapterIdx];
-      const beat = chap.beats[currentBeatIdx];
-      const total = chap.beats.length;
-
-      const ribbon = document.getElementById('speakerRibbon');
-      ribbon.classList.remove('transition-mode');
-      ribbon.textContent = beat.speaker;
-      document.getElementById('beatStepBadge').textContent = `劇情 ${currentBeatIdx + 1} / ${total}`;
-
-      const storyEl = document.getElementById('storyText');
-      storyEl.className = 'story-text' + (beat.isNarration ? ' is-narration' : '');
-
-      const hintEl = document.getElementById('nextBeatHint');
-      hintEl.classList.remove('hidden');
-      if (currentBeatIdx < total - 1) {
-        hintEl.textContent = '❖ 點擊對話框繼續劇情 ▾';
-      } else {
-        hintEl.textContent = '❖ 點擊對話框展開選項 ▾';
+        isTyping = false;
+        $('#storyText').text(fullTargetText);
       }
 
-      typeText(beat.text);
-    }
+      function loadChapter(idx) {
+        currentChapterIdx = idx;
+        currentBeatIdx = 0;
+        phase = 'story';
 
-    function startSceneTransition() {
-      phase = 'transition';
-      currentTransitionBeatIdx = 0;
-      const chap = CHAPTERS[currentChapterIdx];
+        const chap = CHAPTERS[currentChapterIdx];
+        $('#sceneBg').css({
+          backgroundImage: `url('${chap.bg}')`,
+          filter: chap.bgFilter || 'brightness(1.0)'
+        });
 
-      // Fade out character sprite and bring in soft Otome transition veil
-      document.getElementById('characterStage').classList.add('hidden-stage');
-      const veil = document.getElementById('transitionVeil');
-      document.getElementById('transitionCenterCard').textContent = chap.transitionToNextTitle;
-      veil.classList.add('active');
+        $('#transitionVeil').removeClass('active');
+        $('#characterStage').removeClass('hidden-stage');
+        $('#speakerRibbon').removeClass('transition-mode');
 
-      renderTransitionBeat();
-    }
+        $('#chapterPill').text(chap.title);
+        setPortraitExpression(chap.expr, false);
 
-    function renderTransitionBeat() {
-      const chap = CHAPTERS[currentChapterIdx];
-      const nextChap = CHAPTERS[currentChapterIdx + 1];
-      const total = chap.transitionBeats.length;
-      const text = chap.transitionBeats[currentTransitionBeatIdx];
-
-      // On the second transition beat, smoothly crossfade the background to the next scene!
-      if (currentTransitionBeatIdx === 1 && nextChap) {
-        const bgEl = document.getElementById('sceneBg');
-        bgEl.style.backgroundImage = `url('${nextChap.bg}')`;
-        bgEl.style.filter = nextChap.bgFilter || 'brightness(1.0)';
-        document.getElementById('chapterPill').textContent = `過渡中 ➔ ${nextChap.title}`;
+        $('#choicesContainer').removeClass('active').html('');
+        renderCurrentBeat();
       }
 
-      const ribbon = document.getElementById('speakerRibbon');
-      ribbon.classList.add('transition-mode');
-      ribbon.textContent = '✦ 場景過渡・時光流轉';
+      function renderCurrentBeat() {
+        const chap = CHAPTERS[currentChapterIdx];
+        const beat = chap.beats[currentBeatIdx];
+        const total = chap.beats.length;
 
-      document.getElementById('beatStepBadge').textContent = `過渡劇情 ${currentTransitionBeatIdx + 1} / ${total}`;
+        $('#speakerRibbon').removeClass('transition-mode').text(beat.speaker);
+        $('#beatStepBadge').text(`劇情 ${currentBeatIdx + 1} / ${total}`);
 
-      const storyEl = document.getElementById('storyText');
-      storyEl.className = 'story-text is-transition';
+        const $storyEl = $('#storyText');
+        $storyEl.removeClass('is-narration is-reaction is-transition');
+        if (beat.isNarration) $storyEl.addClass('is-narration');
 
-      const hintEl = document.getElementById('nextBeatHint');
-      hintEl.classList.remove('hidden');
-      if (currentTransitionBeatIdx < total - 1) {
-        hintEl.textContent = '❖ 點擊對話框繼續過渡劇情 ▾';
-      } else {
-        hintEl.textContent = `❖ 點擊進入【${nextChap.title}】 ▾`;
-      }
-
-      typeText(text);
-    }
-
-    function advanceStoryBeat() {
-      // If text is currently typing, first click completes the text immediately
-      if (isTyping) {
-        completeTypingImmediately();
-        return;
-      }
-
-      const chap = CHAPTERS[currentChapterIdx];
-
-      if (phase === 'story') {
-        if (currentBeatIdx < chap.beats.length - 1) {
-          playSfx('click');
-          currentBeatIdx++;
-          renderCurrentBeat();
+        const $hintEl = $('#nextBeatHint').removeClass('hidden');
+        if (currentBeatIdx < total - 1) {
+          $hintEl.text('❖ 點擊對話框繼續劇情 ▾');
         } else {
-          // Story finished! Show the choices now!
-          playSfx('chime');
-          showChapterChoices();
+          $hintEl.text('❖ 點擊對話框展開選項 ▾');
         }
-      } else if (phase === 'reaction') {
-        // Player finished reading Cedric's in-scene reaction to their choice!
-        // Only resolve the ending after the final chapter (Chapter 9) is completed.
-        if (currentChapterIdx === CHAPTERS.length - 1) {
-          if (lastChoiceType === 'open' || (lastChoiceType === 'gentle' && dangerCount >= 2 && dangerCount <= 4)) {
-            playSfx('chime');
-            setPortraitExpression('default', false);
-            triggerEnding(
-              'open',
-              '結局 II：【未完待續的薔薇黎明（開放式結局 Open Ending）】',
-              '奪權之夜的大火燃盡了舊帝國的枷鎖，妳在黎明破曉前悄然離開了權力漩渦的中心，只留下一枚徹底失效的「噬心契約母鈴」。數月後，新任帝國攝政王塞德里克平定了最後的動亂；而在遠方邊境小鎮的玻璃花房裡，正在修剪白玫瑰的妳忽然聽見門扉被推開的風鈴聲——那道熟悉的修長身影逆著晨光停在門前，唇角揚起似曾相識的弧度：「我來赴約了，我的未婚妻殿下。這一次，妳打算給我們什麼樣的結局？」'
-            );
-          } else if (lastChoiceType === 'danger' || dangerCount >= 5) {
-            playSfx('low');
-            triggerEnding(
-              'dark',
-              '結局 III：【病嬌黑化與徹底決裂結局】',
-              '「既然妳給的從來不是真心，那就一起墜入深淵吧。」在奪權之夜的火光中，他親手將冰冷的鎖鏈扣上妳的手腕，成為永遠無法逃離彼此的囚籠。'
-            );
-          } else {
-            playSfx('chime');
-            triggerEnding(
-              'true',
-              '結局 I：【雙向救贖與破冰結局（溫和線通關）】',
-              '妳用左肩的舊疤與溫暖的擁抱徹底融化了他心中的冰雪。塞德里克流下淚水，親手砸碎了「噬心契約母鈴」。兩人攜手執掌大公府，迎來真正的黎明。'
-            );
-          }
+
+        typeText(beat.text);
+      }
+
+      function startSceneTransition() {
+        phase = 'transition';
+        currentTransitionBeatIdx = 0;
+        const chap = CHAPTERS[currentChapterIdx];
+
+        $('#characterStage').addClass('hidden-stage');
+        $('#transitionCenterCard').text(chap.transitionToNextTitle);
+        $('#transitionVeil').addClass('active');
+
+        renderTransitionBeat();
+      }
+
+      function renderTransitionBeat() {
+        const chap = CHAPTERS[currentChapterIdx];
+        const nextChap = CHAPTERS[currentChapterIdx + 1];
+        const total = chap.transitionBeats.length;
+        const text = chap.transitionBeats[currentTransitionBeatIdx];
+
+        if (currentTransitionBeatIdx === 1 && nextChap) {
+          $('#sceneBg').css({
+            backgroundImage: `url('${nextChap.bg}')`,
+            filter: nextChap.bgFilter || 'brightness(1.0)'
+          });
+          $('#chapterPill').text(`過渡 ➔ ${nextChap.title}`);
+        }
+
+        $('#speakerRibbon').addClass('transition-mode').text('✦ 場景過渡・時光流轉');
+        $('#beatStepBadge').text(`過渡劇情 ${currentTransitionBeatIdx + 1} / ${total}`);
+
+        $('#storyText').removeClass('is-narration is-reaction').addClass('is-transition');
+
+        const $hintEl = $('#nextBeatHint').removeClass('hidden');
+        if (currentTransitionBeatIdx < total - 1) {
+          $hintEl.text('❖ 點擊對話框繼續過渡劇情 ▾');
+        } else {
+          $hintEl.text(`❖ 點擊進入【${nextChap.title}】 ▾`);
+        }
+
+        typeText(text);
+      }
+
+      function showChapterChoices() {
+        phase = 'choices';
+        const chap = CHAPTERS[currentChapterIdx];
+        $('#nextBeatHint').addClass('hidden');
+        $('#beatStepBadge').text('✦ 請做出妳的選擇');
+
+        const openBtnHtml = chap.openText ? `
+          <button class="vn-choice-btn" data-choice="open">
+            <span>${chap.openText}</span>
+          </button>
+        ` : '';
+
+        $('#choicesContainer').html(`
+          <button class="vn-choice-btn" data-choice="gentle">
+            <span>${chap.gentleText}</span>
+          </button>
+          ${openBtnHtml}
+          <button class="vn-choice-btn" data-choice="danger">
+            <span>${chap.dangerText}</span>
+            <span class="caution-whisper">這個答案似乎需要慎重考慮……</span>
+          </button>
+        `).addClass('active');
+      }
+
+      function triggerEnding(key, title, desc) {
+        unlockedEndings[key] = true;
+        $('#endPill_' + key).addClass('unlocked');
+        $('#endingTitle').text(title);
+        $('#endingDesc').text(desc);
+        $('#endingModal').addClass('open').fadeIn(260);
+        dangerCount = 0;
+      }
+
+      // =====================================================
+      // jQuery Event Bindings
+      // =====================================================
+      $('#bgmBtn').on('click', function(e) {
+        e.stopPropagation();
+        bgmEnabled = !bgmEnabled;
+        $(this).text(bgmEnabled ? '♪ 音樂：開' : '♪ 音樂');
+        if (bgmEnabled) {
+          const notes = [659.25, 783.99, 987.77, 1046.5, 987.77, 783.99];
+          let s = 0;
+          bgmTimer = setInterval(() => {
+            if (!bgmEnabled) return;
+            const ctx = getAudioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.frequency.setValueAtTime(notes[s % notes.length], now);
+            g.gain.setValueAtTime(0.022, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+            osc.connect(g); g.connect(ctx.destination);
+            osc.start(now); osc.stop(now + 0.45);
+            s++;
+          }, 560);
+        } else if (bgmTimer) {
+          clearInterval(bgmTimer);
+        }
+      });
+
+      $('#startFromPrologueBtn').on('click', function() {
+        playSfx('chime');
+        currentChapterIdx = 0;
+        dangerCount = 0;
+        $('#prologueScreen').addClass('hidden');
+        loadChapter(0);
+      });
+
+      $('#backToPrologueBtn').on('click', function(e) {
+        e.stopPropagation();
+        playSfx('click');
+        if (typingTimer) clearInterval(typingTimer);
+        $('#prologueScreen').removeClass('hidden');
+      });
+
+      $('#closeEndingModalBtn').on('click', function() {
+        $('#endingModal').removeClass('open');
+        playSfx('click');
+        if (typingTimer) clearInterval(typingTimer);
+        $('#prologueScreen').removeClass('hidden');
+      });
+
+      $('#vnTextbox').on('click', function() {
+        if (isTyping) {
+          completeTypingImmediately();
           return;
         }
 
-        // Otherwise, enter the Scene Transition Interlude (過渡劇情) before switching chapters!
-        playSfx('chime');
-        startSceneTransition();
-      } else if (phase === 'transition') {
-        if (currentTransitionBeatIdx < chap.transitionBeats.length - 1) {
-          playSfx('click');
-          currentTransitionBeatIdx++;
-          renderTransitionBeat();
-        } else {
+        const chap = CHAPTERS[currentChapterIdx];
+
+        if (phase === 'story') {
+          if (currentBeatIdx < chap.beats.length - 1) {
+            playSfx('click');
+            currentBeatIdx++;
+            renderCurrentBeat();
+          } else {
+            playSfx('chime');
+            showChapterChoices();
+          }
+        } else if (phase === 'reaction') {
+          if (currentChapterIdx === CHAPTERS.length - 1) {
+            if (lastChoiceType === 'open' || (lastChoiceType === 'gentle' && dangerCount >= 2 && dangerCount <= 4)) {
+              playSfx('chime');
+              setPortraitExpression('default', false);
+              triggerEnding(
+                'open',
+                '結局 II：【未完待續的薔薇黎明（開放式結局 Open Ending）】',
+                '奪權之夜的大火燃盡了舊帝國的枷鎖，妳在黎明破曉前悄然離開了權力漩渦的中心，只留下一枚徹底失效的「噬心契約母鈴」。數月後，新任帝國攝政王塞德里克平定了最後的動亂；而在遠方邊境小鎮的玻璃花房裡，正在修剪白玫瑰的妳忽然聽見門扉被推開的風鈴聲——那道熟悉的修長身影逆著晨光停在門前，唇角揚起似曾相識的弧度：「我來赴約了，我的未婚妻殿下。這一次，妳打算給我們什麼樣的結局？」'
+              );
+            } else if (lastChoiceType === 'danger' || dangerCount >= 5) {
+              playSfx('low');
+              triggerEnding(
+                'dark',
+                '結局 III：【病嬌黑化與徹底決裂結局】',
+                '「既然妳給的從來不是真心，那就一起墜入深淵吧。」在奪權之夜的火光中，他親手將冰冷的鎖鏈扣上妳的手腕，成為永遠無法逃離彼此的囚籠。'
+              );
+            } else {
+              playSfx('chime');
+              triggerEnding(
+                'true',
+                '結局 I：【雙向救贖與破冰結局（溫和線通關）】',
+                '妳用左肩的舊疤與溫暖的擁抱徹底融化了他心中的冰雪。塞德里克流下淚水，親手砸碎了「噬心契約母鈴」。兩人攜手執掌大公府，迎來真正的黎明。'
+              );
+            }
+            return;
+          }
+
           playSfx('chime');
-          loadChapter(currentChapterIdx + 1);
+          startSceneTransition();
+        } else if (phase === 'transition') {
+          if (currentTransitionBeatIdx < chap.transitionBeats.length - 1) {
+            playSfx('click');
+            currentTransitionBeatIdx++;
+            renderTransitionBeat();
+          } else {
+            playSfx('chime');
+            loadChapter(currentChapterIdx + 1);
+          }
         }
-      }
-    }
-
-    function showChapterChoices() {
-      phase = 'choices';
-      const chap = CHAPTERS[currentChapterIdx];
-      document.getElementById('nextBeatHint').classList.add('hidden');
-      document.getElementById('beatStepBadge').textContent = '✦ 請做出妳的選擇';
-
-      const box = document.getElementById('choicesContainer');
-      const openBtnHtml = chap.openText ? `
-        <button class="vn-choice-btn" onclick="selectOpenOption(event)">
-          <span>${chap.openText}</span>
-        </button>
-      ` : '';
-
-      box.innerHTML = `
-        <button class="vn-choice-btn" onclick="selectGentleOption(event)">
-          <span>${chap.gentleText}</span>
-        </button>
-        ${openBtnHtml}
-        <button class="vn-choice-btn" onclick="selectDangerOption(event)">
-          <span>${chap.dangerText}</span>
-          <span class="caution-whisper">這個答案似乎需要慎重考慮……</span>
-        </button>
-      `;
-      box.classList.add('active');
-    }
-
-    function selectGentleOption(e) {
-      if (e) e.stopPropagation();
-      playSfx('chime');
-      const chap = CHAPTERS[currentChapterIdx];
-      lastChoiceType = 'gentle';
-      phase = 'reaction';
-
-      const box = document.getElementById('choicesContainer');
-      box.classList.remove('active');
-
-      setPortraitExpression(chap.gentleReactionExpr, false);
-
-      const reactBeat = chap.gentleReactionBeat;
-      const ribbon = document.getElementById('speakerRibbon');
-      ribbon.classList.remove('transition-mode');
-      ribbon.textContent = reactBeat.speaker;
-      document.getElementById('beatStepBadge').textContent = '✦ 塞德里克的回應';
-
-      const storyEl = document.getElementById('storyText');
-      storyEl.className = 'story-text';
-
-      const hintEl = document.getElementById('nextBeatHint');
-      hintEl.classList.remove('hidden');
-      if (currentChapterIdx === CHAPTERS.length - 1) {
-        hintEl.textContent = '❖ 點擊對話框迎向最終結局 ▾';
-      } else {
-        hintEl.textContent = '❖ 點擊對話框進入場景過渡劇情 ▾';
-      }
-
-      typeText(reactBeat.text);
-    }
-
-    function selectOpenOption(e) {
-      if (e) e.stopPropagation();
-      playSfx('chime');
-      const chap = CHAPTERS[currentChapterIdx];
-      lastChoiceType = 'open';
-      phase = 'reaction';
-
-      const box = document.getElementById('choicesContainer');
-      box.classList.remove('active');
-
-      setPortraitExpression(chap.openReactionExpr || 'default', false);
-
-      const reactBeat = chap.openReactionBeat;
-      const ribbon = document.getElementById('speakerRibbon');
-      ribbon.classList.remove('transition-mode');
-      ribbon.textContent = reactBeat.speaker;
-      document.getElementById('beatStepBadge').textContent = '✦ 塞德里克的回應';
-
-      const storyEl = document.getElementById('storyText');
-      storyEl.className = 'story-text';
-
-      const hintEl = document.getElementById('nextBeatHint');
-      hintEl.classList.remove('hidden');
-      hintEl.textContent = '❖ 點擊對話框迎向開放式結局 ▾';
-
-      typeText(reactBeat.text);
-    }
-
-    function selectDangerOption(e) {
-      if (e) e.stopPropagation();
-      playSfx('low');
-      const chap = CHAPTERS[currentChapterIdx];
-      dangerCount++;
-      lastChoiceType = 'danger';
-      phase = 'reaction';
-
-      // Hide choices so player can read Cedric's reaction cleanly
-      const box = document.getElementById('choicesContainer');
-      box.classList.remove('active');
-
-      setPortraitExpression(chap.dangerReactionExpr, true);
-
-      const reactBeat = chap.dangerReactionBeat;
-      const ribbon = document.getElementById('speakerRibbon');
-      ribbon.classList.remove('transition-mode');
-      ribbon.textContent = reactBeat.speaker;
-      document.getElementById('beatStepBadge').textContent = '✦ 塞德里克的反應';
-
-      const storyEl = document.getElementById('storyText');
-      storyEl.className = 'story-text is-reaction';
-
-      const hintEl = document.getElementById('nextBeatHint');
-      hintEl.classList.remove('hidden');
-      if (currentChapterIdx === CHAPTERS.length - 1) {
-        hintEl.textContent = '❖ 點擊對話框迎向最終結局 ▾';
-      } else {
-        hintEl.textContent = '❖ 點擊對話框進入場景過渡劇情 ▾';
-      }
-
-      typeText(reactBeat.text);
-    }
-
-    function triggerEnding(key, title, desc) {
-      unlockedEndings[key] = true;
-      const pill = document.getElementById('endPill_' + key);
-      if (pill) pill.classList.add('unlocked');
-
-      document.getElementById('endingTitle').textContent = title;
-      document.getElementById('endingDesc').textContent = desc;
-      document.getElementById('endingModal').classList.add('open');
-      dangerCount = 0;
-    }
-
-    function closeEndingModal() {
-      document.getElementById('endingModal').classList.remove('open');
-      backToPrologue();
-    }
-
-    function backToPrologue() {
-      playSfx('click');
-      if (typingTimer) clearInterval(typingTimer);
-      document.getElementById('prologueScreen').classList.remove('hidden');
-    }
-
-    // Soft Floating Sakura / Rose Petals Canvas
-    const canvas = document.getElementById('particleCanvas');
-    const ctx2d = canvas.getContext('2d');
-    let particles = [];
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    for (let i = 0; i < 20; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: 3 + Math.random() * 4,
-        vx: -0.25 + Math.random() * 0.5,
-        vy: 0.35 + Math.random() * 0.55,
-        alpha: 0.45 + Math.random() * 0.35
       });
-    }
-    function animateParticles() {
-      ctx2d.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.y > canvas.height) { p.y = -8; p.x = Math.random() * canvas.width; }
-        if (p.x > canvas.width) p.x = 0;
-        if (p.x < 0) p.x = canvas.width;
-        ctx2d.save();
-        ctx2d.fillStyle = `rgba(244, 184, 204, ${p.alpha})`;
-        ctx2d.beginPath();
-        ctx2d.ellipse(p.x, p.y, p.size, p.size * 0.65, Math.PI / 4, 0, Math.PI * 2);
-        ctx2d.fill();
-        ctx2d.restore();
+
+      // Delegated jQuery event handler for choice buttons
+      $('#choicesContainer').on('click', '.vn-choice-btn', function(e) {
+        e.stopPropagation();
+        const choiceType = $(this).data('choice');
+        const chap = CHAPTERS[currentChapterIdx];
+        lastChoiceType = choiceType;
+        phase = 'reaction';
+
+        $('#choicesContainer').removeClass('active');
+        $('#speakerRibbon').removeClass('transition-mode');
+
+        if (choiceType === 'gentle') {
+          playSfx('chime');
+          setPortraitExpression(chap.gentleReactionExpr, false);
+          $('#speakerRibbon').text(chap.gentleReactionBeat.speaker);
+          $('#beatStepBadge').text('✦ 塞德里克的回應');
+          $('#storyText').removeClass('is-narration is-reaction is-transition');
+          $('#nextBeatHint').removeClass('hidden').text(
+            currentChapterIdx === CHAPTERS.length - 1 ? '❖ 點擊對話框迎向最終結局 ▾' : '❖ 點擊對話框進入場景過渡劇情 ▾'
+          );
+          typeText(chap.gentleReactionBeat.text);
+        } else if (choiceType === 'open') {
+          playSfx('chime');
+          setPortraitExpression(chap.openReactionExpr || 'default', false);
+          $('#speakerRibbon').text(chap.openReactionBeat.speaker);
+          $('#beatStepBadge').text('✦ 塞德里克的回應');
+          $('#storyText').removeClass('is-narration is-reaction is-transition');
+          $('#nextBeatHint').removeClass('hidden').text('❖ 點擊對話框迎向開放式結局 ▾');
+          typeText(chap.openReactionBeat.text);
+        } else if (choiceType === 'danger') {
+          playSfx('low');
+          dangerCount++;
+          setPortraitExpression(chap.dangerReactionExpr, true);
+          $('#speakerRibbon').text(chap.dangerReactionBeat.speaker);
+          $('#beatStepBadge').text('✦ 塞德里克的反應');
+          $('#storyText').removeClass('is-narration is-transition').addClass('is-reaction');
+          $('#nextBeatHint').removeClass('hidden').text(
+            currentChapterIdx === CHAPTERS.length - 1 ? '❖ 點擊對話框迎向最終結局 ▾' : '❖ 點擊對話框進入場景過渡劇情 ▾'
+          );
+          typeText(chap.dangerReactionBeat.text);
+        }
       });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
+
+      // Soft Floating Sakura / Rose Petals Canvas
+      const canvas = $('#particleCanvas')[0] || document.getElementById('particleCanvas');
+      const ctx2d = canvas.getContext('2d');
+      let particles = [];
+      function resizeCanvas() {
+        const vp = document.querySelector('.game-viewport');
+        canvas.width = vp ? vp.clientWidth : window.innerWidth;
+        canvas.height = vp ? vp.clientHeight : window.innerHeight;
+      }
+      $(window).on('resize', resizeCanvas);
+      resizeCanvas();
+      for (let i = 0; i < 18; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: 3 + Math.random() * 4,
+          vx: -0.25 + Math.random() * 0.5,
+          vy: 0.35 + Math.random() * 0.55,
+          alpha: 0.45 + Math.random() * 0.35
+        });
+      }
+      function animateParticles() {
+        ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y > canvas.height) { p.y = -8; p.x = Math.random() * canvas.width; }
+          if (p.x > canvas.width) p.x = 0;
+          if (p.x < 0) p.x = canvas.width;
+          ctx2d.save();
+          ctx2d.fillStyle = `rgba(244, 184, 204, ${p.alpha})`;
+          ctx2d.beginPath();
+          ctx2d.ellipse(p.x, p.y, p.size, p.size * 0.65, Math.PI / 4, 0, Math.PI * 2);
+          ctx2d.fill();
+          ctx2d.restore();
+        });
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+    });
   </script>
 </body>
 </html>
